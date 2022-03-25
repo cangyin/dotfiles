@@ -1,11 +1,14 @@
 - clean: ['~']
 
 - link:
-    ~/.bashrc: bashrc:
+    ~/.bashrc:
+      path: bashrc
       force: true
-    ~/.gitconfig: gitconfig:
+    ~/.gitconfig:
+      path: gitconfig
       force: true
-    ~/.vimrc: vimrc:
+    ~/.vimrc: 
+      path: vimrc
       force: true
 
 
