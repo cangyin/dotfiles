@@ -503,6 +503,7 @@ function blanklined(){
 
 
 export -f \
+    calc \
     d_pull_from_registry \
     d_push_to_registry \
     d_retag find_container_by_pid \
