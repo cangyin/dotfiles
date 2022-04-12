@@ -552,6 +552,38 @@ function blanklined(){
     done
 }
 
+function update_dotfiles() {
+    if [ -z "$1" ]; then
+        echo "Usage: update_dotfiles -l"
+        echo "       update_dotfiles <branch> host1 host2 ..."
+        echo ""
+        echo "  -l: list all branches"
+        echo "  <branch>: update dotfiles from given branch"
+        echo "  host1 host2 ...: update dotfiles on given hosts"
+        return 1
+    fi
+    if [[ "$1" == "-l" ]]; then
+        cd ~/.dotfiles && git branch -a
+        return 0
+    fi
+
+    branch=$1
+    shift
+    HOSTS=$*
+    if [ -z "$HOSTS" ]; then
+        echo "no hosts given."
+        return 1
+    fi
+
+    echo -e "\n${YELLOW}${BOLD}On localhost${NC}"
+    cd ~/.dotfiles && git pull && git checkout $branch && ./install
+
+    for h in ${HOSTS}; do
+        echo -e "\n${YELLOW}${BOLD}On ${h}${NC}"
+        ssh -o ConnectTimeout=2 $h "cd ~/.dotfiles && . /set-proxy && git pull && git checkout $branch && ./install"
+    done
+}
+
 
 export -f \
     calc \
