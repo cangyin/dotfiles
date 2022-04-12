@@ -1,6 +1,9 @@
 - clean: ['~']
 
 - link:
+    /set-proxy:
+      path: set-proxy
+      force: true
     ~/.bashrc:
       path: bashrc
       force: true
