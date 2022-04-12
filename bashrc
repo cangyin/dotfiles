@@ -591,7 +591,7 @@ export -f \
     d_push_to_registry \
     d_retag \
     find_container_by_pid \
-    d_search_hash \
+    d_search_containers \
     blanklined
 
 
