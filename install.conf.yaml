@@ -16,3 +16,6 @@
     ~/.emacs:
       path: emacs
       force: true
+    /usr/share/bash-completion/helpers/complete_alias:
+      path: complete-alias/complete_alias
+      force: true

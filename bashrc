@@ -69,9 +69,12 @@ export HISTCONTROL=ignorespace:erasedups
 # the PROMPT
 PS1='\[\e[0;2;32m\]\u@\h ''\[\e[2;34m\]\w\n''\[\e[0;1;37m\]\$''\[\e[0m\] '
 
+source /usr/share/bash-completion/helpers/complete_alias
+
 
 if which git &> /dev/null; then
     alias g='git'
+    complete -F _complete_alias g
 fi
 
 if which helm &> /dev/null; then
@@ -82,7 +85,7 @@ fi
 if which kubectl &> /dev/null; then
     source <(kubectl completion bash)
     alias k=kubectl
-    complete -F __start_kubectl k
+    complete -F _complete_alias k
     complete -F __complete_k_namespaces k_switch_namespace
     complete -F __complete_k_namespaces k_remaining_resoures
     complete -F __complete_k_pods k_pod_bash
@@ -92,7 +95,7 @@ fi
 if [ -f /usr/share/bash-completion/completions/docker ]; then
     source /usr/share/bash-completion/completions/docker
     alias d=docker
-    complete -F _docker d
+    complete -F _complete_alias d
     complete -F __complete_d_containers drm
     complete -F __complete_d_images d_push_to_registry
     complete -F __complete_d_images d_retag
