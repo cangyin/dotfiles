@@ -2,3 +2,6 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "complete-alias"]
+	path = complete-alias
+	url = https://github.com/cykerway/complete-alias
