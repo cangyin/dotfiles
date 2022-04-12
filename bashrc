@@ -450,26 +450,26 @@ function find_container_by_pid() {
     return 2
 }
 
-# function d_search_hash () {
-d_search_hash () {
+# function d_search_containers () {
+d_search_containers () {
+    if [ -z "$1" ]; then
+	echo "Usage: d_search_containers  <any-hash-string>"
+	echo "Example: d_search_containers  ef68cd3"
+	return 1
+    fi
+    
     if [ -t 1 ]; then
-       local result=$(_d_search_hash "$@" | column -t)
+       local result=$(_d_search_containers "$@" | column -t)
        echo -en $BOLD
        echo "$result" | head -n 1
        echo -en $NC
        echo "$result" | tail -n+2 | blanklined -b 0 -c BLUE
     else
-       _d_search_hash "$@" | column -t
+       _d_search_containers "$@" | column -t
     fi
 }
 
-function _d_search_hash () {
-    if [ -z "$1" ]; then
-	echo "Usage: d_search_hash  <any-hash-string>"
-	echo "Example: d_search_hash  ef68cd3"
-	return 1
-    fi
-    
+function _d_search_containers () {
     local hash=$1
     local found=()
     for i in $(docker container ls -q); do
