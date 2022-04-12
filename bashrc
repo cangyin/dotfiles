@@ -457,7 +457,7 @@ d_search_hash () {
        echo -en $BOLD
        echo "$result" | head -n 1
        echo -en $NC
-       echo "$result" | tail -n-2 | blanklined -b 0 -c BLUE
+       echo "$result" | tail -n+2 | blanklined -b 0 -c BLUE
     else
        _d_search_hash "$@" | column -t
     fi
