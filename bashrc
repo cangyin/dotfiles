@@ -70,6 +70,10 @@ export HISTCONTROL=ignorespace:erasedups
 PS1='\[\e[0;2;32m\]\u@\h ''\[\e[2;34m\]\w\n''\[\e[0;1;37m\]\$''\[\e[0m\] '
 
 
+if which git &> /dev/null; then
+    alias g='git'
+fi
+
 if which helm &> /dev/null; then
     source <(helm completion bash)
 fi
@@ -443,6 +447,50 @@ function find_container_by_pid() {
     return 2
 }
 
+# function d_search_hash () {
+d_search_hash () {
+    if [ -t 1 ]; then
+       local result=$(_d_search_hash "$@" | column -t)
+       echo -en $BOLD
+       echo "$result" | head -n 1
+       echo -en $NC
+       echo "$result" | tail -n-2 | blanklined -b 0 -c BLUE
+    else
+       _d_search_hash "$@" | column -t
+    fi
+}
+
+function _d_search_hash () {
+    if [ -z "$1" ]; then
+	echo "Usage: d_search_hash  <any-hash-string>"
+	echo "Example: d_search_hash  ef68cd3"
+	return 1
+    fi
+    
+    local hash=$1
+    local found=()
+    for i in $(docker container ls -q); do
+        if docker inspect $i | grep --color=never $hash > /dev/null; then
+            found+=($i);
+        fi;
+    done
+    if [[ ${#found[@]} -eq 0 ]]; then
+	echo Nothing found.
+	return 1
+    fi
+    
+    echo -e "ContainerID\t ContainerName\t ImageID\t ImageName"
+    for i in "${found[@]}"; do
+	local s=$(docker inspect $i | jq -r '.[0]')
+	local ContainerID=$(echo $s | jq -r '.Id')
+	local ContainerName=$(echo $s | jq -r '.Name')
+	local ImageID=$(echo $s | jq -r '.Image')
+	local ImageName=$(docker inspect $ImageID | jq -r '.[0] | .RepoTags[0]')
+	echo -e "$ContainerID\t $ContainerName\t $ImageID\t $ImageName"
+    done
+}
+
+
 # misc functions
 
 function blanklined(){
@@ -506,7 +554,9 @@ export -f \
     calc \
     d_pull_from_registry \
     d_push_to_registry \
-    d_retag find_container_by_pid \
+    d_retag \
+    find_container_by_pid \
+    d_search_hash \
     blanklined
 
 
