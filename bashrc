@@ -65,6 +65,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export HISTCONTROL=ignorespace:erasedups
+export HISTTIMEFORMAT="%F %T "
 
 # the PROMPT
 PS1='\[\e[0;2;32m\]\u@\h ''\[\e[2;34m\]\w\n''\[\e[0;1;37m\]\$''\[\e[0m\] '
