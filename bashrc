@@ -66,11 +66,12 @@ fi
 
 export HISTCONTROL=ignorespace:erasedups
 export HISTTIMEFORMAT="%F %T "
+export HISTSIZE=20000
 
 # the PROMPT
 PS1='\[\e[0;2;32m\]\u@\h ''\[\e[2;34m\]\w\n''\[\e[0;1;37m\]\$''\[\e[0m\] '
 
-source /usr/share/bash-completion/helpers/complete_alias
+source /usr/share/bash-completion/complete_alias
 
 
 if which git &> /dev/null; then
